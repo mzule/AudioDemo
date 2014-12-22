@@ -86,5 +86,6 @@ public class MainActivity extends ActionBarActivity implements MediaPlayer.OnBuf
 
     @Override
     public void onCompletion(MediaPlayer mp) {
+        mp.start();
     }
 }
