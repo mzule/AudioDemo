@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class MainActivity extends ActionBarActivity implements MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnCompletionListener {
+public class MainActivity extends ActionBarActivity implements MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener {
     private static final int PROGRESS_UPDATE_PERIOD = 100;
     private static final int MSG_UPDATE_PROGRESS = 1;
 
@@ -46,11 +46,10 @@ public class MainActivity extends ActionBarActivity implements MediaPlayer.OnBuf
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnBufferingUpdateListener(this);
         mediaPlayer.setOnCompletionListener(this);
+        mediaPlayer.setOnPreparedListener(this);
         try {
             mediaPlayer.setDataSource("http://huohua-static.qiniudn.com/apk_ccnl.mp3");
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-            duration = mediaPlayer.getDuration();
+            mediaPlayer.prepareAsync();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,5 +86,11 @@ public class MainActivity extends ActionBarActivity implements MediaPlayer.OnBuf
     @Override
     public void onCompletion(MediaPlayer mp) {
         mp.start();
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+        mp.start();
+        duration = mediaPlayer.getDuration();
     }
 }
