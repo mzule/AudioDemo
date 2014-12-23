@@ -47,7 +47,7 @@ public class MainActivity extends ActionBarActivity implements MediaPlayer.OnBuf
         Intent intent = new Intent(getApplicationContext(), AudioService.class);
         intent.setAction(AudioService.ACTION_PLAY);
         intent.putExtra("url", "http://huohua-static.qiniudn.com/apk_ccnl.mp3");
-        bindService(intent, conn, BIND_AUTO_CREATE);
+        bindService(intent, conn, 0);
         startService(intent);
         Log.d("startService", "startService");
     }

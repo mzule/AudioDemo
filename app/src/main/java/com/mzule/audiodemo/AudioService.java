@@ -26,7 +26,7 @@ public class AudioService extends Service implements MediaPlayer.OnCompletionLis
 
     private OnAudioProgressUpdateListener onAudioProgressUpdateListener;
     private int duration;
-    private boolean isDestroyed;
+    private boolean isComplete;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -34,7 +34,7 @@ public class AudioService extends Service implements MediaPlayer.OnCompletionLis
                 Log.d(TAG, "onAudioProgressUpdateListener");
                 onAudioProgressUpdateListener.update(duration, mediaPlayer.getCurrentPosition());
             }
-            if (!isDestroyed) {
+            if (!isComplete) {
                 handler.sendEmptyMessageDelayed(MSG_UPDATE_PROGRESS, PROGRESS_UPDATE_PERIOD);
             }
         }
@@ -82,6 +82,7 @@ public class AudioService extends Service implements MediaPlayer.OnCompletionLis
 
     @Override
     public void onCompletion(MediaPlayer mp) {
+        isComplete = true;
         stopSelf();
         Log.d(TAG, "onCompletion");
     }
@@ -89,7 +90,6 @@ public class AudioService extends Service implements MediaPlayer.OnCompletionLis
     @Override
     public void onDestroy() {
         super.onDestroy();
-        isDestroyed = true;
         Log.d(TAG, "onDestroy");
     }
 
